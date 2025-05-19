@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📄 PDF 리스트</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; }
+    h1 { color: #333; }
+    ul { list-style: none; padding-left: 0; }
+    li { margin: 0.5em 0; }
+    a { text-decoration: none; color: #007acc; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>📄 PDF 리스트</h1>
+  <ul id="pdf-list">로딩 중...</ul>
+
+  <script>
+    const pdfFiles = [
+      "sample1.pdf",
+      "sample2.pdf"
+    ];
+
+    const list = document.getElementById('pdf-list');
+    list.innerHTML = "";
+
+    pdfFiles.forEach(file => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = `pdfs/${file}`;
+      a.textContent = file;
+      a.target = "_blank";
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  </script>
+</body>
+</html>
