@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>📄 Rikkie PDF 리스트</title>
+  <title>📄 PDF 리스트 (자동화)</title>
   <style>
     body { font-family: sans-serif; padding: 2em; }
     h1 { color: #333; }
@@ -13,27 +13,32 @@
   </style>
 </head>
 <body>
-  <h1>📄 Rikkie PDF 리스트</h1>
+  <h1>📄 PDF 리스트</h1>
   <ul id="pdf-list">로딩 중...</ul>
 
   <script>
-    const pdfFiles = [
-      "sample1.pdf",
-      "sample2.pdf"
-    ];
+    const list = document.getElementById("pdf-list");
 
-    const list = document.getElementById('pdf-list');
-    list.innerHTML = "";
-
-    pdfFiles.forEach(file => {
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = `pdfs/${file}`;
-      a.textContent = file;
-      a.target = "_blank";
-      li.appendChild(a);
-      list.appendChild(li);
-    });
+    fetch("https://api.github.com/repos/nan02yeyo/pdf-collection/contents/pdfs")
+      .then(response => response.json())
+      .then(data => {
+        list.innerHTML = "";
+        data.forEach(file => {
+          if (file.name.endsWith(".pdf")) {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.href = `pdfs/${file.name}`;
+            a.textContent = file.name;
+            a.target = "_blank";
+            li.appendChild(a);
+            list.appendChild(li);
+          }
+        });
+      })
+      .catch(error => {
+        list.innerHTML = "<li>❌ PDF 목록을 불러오는 데 실패했어요.</li>";
+        console.error(error);
+      });
   </script>
 </body>
 </html>
